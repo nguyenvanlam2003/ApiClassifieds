@@ -12,6 +12,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplication(builder.Configuration); // Thêm dịch vụ ứng dụng vào DI container
 builder.Services.AddPersistence(builder.Configuration); // Thêm dịch vụ DbContext vào DI container
 builder.Services.AddCustomSwagger(builder.Configuration); // Thêm dịch vụ Swagger vào DI container
+
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = int.MaxValue;
+});
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = int.MaxValue;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
